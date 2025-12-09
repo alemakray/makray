@@ -1,31 +1,31 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: sample-service-prod
-namePrefix: prod-
+namespace: app2-dev
+namePrefix: dev-
 commonLabels:
-  env: prod
+  env: dev
 resources:
   - ../../base
   - namespace.yaml
 images:
   - name: nginx
     newName: nginx
-    newTag: "1.25.4-alpine"
+    newTag: "1.25.3-alpine"
 patches:
   - target:
       kind: Deployment
-      name: sample-service
+      name: app2
     patch: |-
       apiVersion: apps/v1
       kind: Deployment
       metadata:
-        name: sample-service
+        name: app2
       spec:
-        replicas: 3
+        replicas: 1
         template:
           spec:
             containers:
-              - name: sample-service
+              - name: app2
                 env:
                   - name: APP_ENV
-                    value: prod
+                    value: dev

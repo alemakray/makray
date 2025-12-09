@@ -1,0 +1,8 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+# Base manifests stay environment-agnostic; overlays handle env-specific drift.
+commonLabels:
+  app: app1
+resources:
+  - deployment.yaml
+  - service.yaml

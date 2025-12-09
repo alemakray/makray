@@ -6,8 +6,8 @@ Kustomize-first GitOps skeleton that assumes:
 - You want per-env appsets and per-env addons, bootstrapped by an app-of-apps.
 
 ## Repo layout (what goes where)
-- `apps/sample-service/base/` – environment-agnostic Deployment/Service with probes, resources, seccomp, non-root defaults.
-- `apps/sample-service/overlays/{dev,prod}/` – per-env knobs (namespace `<app>-<env>`, replicas, labels, image tags).
+- `apps/app1/base/`, `apps/app2/base/` – environment-agnostic Deployments/Services with probes, resources, seccomp, non-root defaults.
+- `apps/app1/overlays/{dev,prod}/`, `apps/app2/overlays/{dev,prod}/` – per-env knobs (namespace `<app>-<env>`, replicas, labels, image tags).
 - `clusters/{dev,prd}/appsets/apps-{dev,prd}.yaml` – ApplicationSets. They watch `apps/*/overlays/{dev|prod}` and create an Argo CD Application per overlay automatically, targeting `cluster-dev`/`cluster-prd`.
 - `addons/{dev,prd}/` – Per-cluster addons (Istio, kube-prometheus-stack, External Secrets, Trivy, and a placeholder external-secret-stores app). Each file already targets the correct cluster alias.
 - `addons/external-secrets-stores/{dev,prd}/` – Empty folders to hold your SecretStores/ExternalSecrets per cluster.

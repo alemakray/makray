@@ -3,7 +3,7 @@
 GitOps playground with Argo CD + Kustomize, built to manage two workload clusters (aliases `cluster-dev`, `cluster-prd`) from a tools cluster running Argo CD. The `gitops-environment/` folder holds everything you need to bootstrap, deploy apps per environment, and install core addons.
 
 ## What’s inside
-- `gitops-environment/apps/` – Sample app (`sample-service`) with a reusable base and overlays per env (`dev`, `prod`); follow the same pattern for your apps.
+- `gitops-environment/apps/` – Sample apps (`app1`, `app2`) with reusable bases and overlays per env (`dev`, `prod`); follow the same pattern for your apps.
 - `gitops-environment/clusters/{dev,prd}/` – Per-cluster kustomizations that include that env’s ApplicationSet (`appsets/apps-*.yaml`) and addons.
 - `gitops-environment/addons/{dev,prd}/` – Argo CD Applications to install Istio, kube-prometheus-stack (Prometheus/Grafana), External Secrets operator, Trivy, plus an `external-secret-stores` app pointing to folders you can populate with SecretStore/ExternalSecret manifests.
 - `gitops-environment/bootstrap/{dev,prd}/` – App-of-apps entrypoints; apply from the tools cluster to let Argo CD pull the rest.
