@@ -1,34 +1,21 @@
 # makray
 
-GitOps playground with Argo CD + Kustomize, built to manage two workload clusters (aliases `cluster-dev`, `cluster-prd`) from a tools cluster running Argo CD. The `gitops-environment/` folder holds everything you need to bootstrap, deploy apps per environment, and install core addons.
+DevOps/GitOps portfolio: Azure-first, Kubernetes-native, with Terraform, Argo CD, Kustomize, secure supply chain, monitoring, and cost-aware practices baked in. This repo is structured to demonstrate how I design, bootstrap, and operate multi-environment clusters with strong governance and automation.
 
-## What’s inside
-- `gitops-environment/apps/` – Sample apps (`app1`, `app2`) with reusable bases and overlays per env (`dev`, `prod`); follow the same pattern for your apps.
-- `gitops-environment/clusters/{dev,prd}/` – Per-cluster kustomizations that include that env’s ApplicationSet (`appsets/apps-*.yaml`) and addons.
-- `gitops-environment/addons/{dev,prd}/` – Argo CD Applications to install Istio, kube-prometheus-stack (Prometheus/Grafana), External Secrets operator, Trivy, plus an `external-secret-stores` app pointing to folders you can populate with SecretStore/ExternalSecret manifests.
-- `gitops-environment/bootstrap/{dev,prd}/` – App-of-apps entrypoints; apply from the tools cluster to let Argo CD pull the rest.
-- `gitops-environment/README.md` – Detailed usage guide.
+## What I focus on
+- **Cloud & Infra**: Azure, AKS, Azure DevOps, Terraform (remote state, workspaces), GitHub Actions; experience with OCI/OKE as well.
+- **GitOps**: Argo CD (app-of-apps, ApplicationSets), Kustomize overlays, promotion pipelines, drift detection, and policy-as-code.
+- **Security**: External Secrets operator, non-root defaults, seccomp, Trivy Operator, signed/immutable images, secret hygiene.
+- **Delivery**: CI/CD patterns with GitHub Actions/Azure Pipelines, image automation, blue/green or canary via Istio/gateway mesh.
+- **Observability & Cost**: Prometheus/Grafana stack, service monitors, retention tuning; cost-aware sizing and right-sizing signals.
+- **Reliability**: Health probes, autoscaling patterns, multi-env parity, automated self-heal/prune via Argo CD.
 
-## Assumptions
-- Argo CD (with ApplicationSet controller) runs in a tools cluster.
-- Argo CD has cluster secrets/aliases: `cluster-dev` (dev cluster), `cluster-prd` (prod cluster).
-- You will set your own `repoURL`/`targetRevision` in the manifests before applying.
+## Repo highlights (quick map)
+- `gitops-environment/` – Full GitOps scaffold (apps, appsets, addons, bootstrap); see its README for specifics.
+- Other files/scripts – used for experiments and demos; will grow as I add more IaC/CI/CD examples.
 
-## Quick start
-1) Update repo URLs and revisions in:
-   - `gitops-environment/clusters/{dev,prd}/appsets/apps-*.yaml`
-   - `gitops-environment/clusters/{dev,prd}/addons.yaml`
-   - `gitops-environment/addons/{dev,prd}/*.yaml`
-   - `gitops-environment/bootstrap/{dev,prd}/app-of-apps.yaml`
-2) From the tools cluster context, bootstrap:
-   - Dev: `kubectl apply -k gitops-environment/bootstrap/dev`
-   - Prod: `kubectl apply -k gitops-environment/bootstrap/prd`
-3) Add apps by creating `apps/<app>/base` + `apps/<app>/overlays/{dev,prod}` (namespaces `<app>-dev` / `<app>-prod`). The env-specific ApplicationSet will auto-create Argo CD Applications in the right cluster.
-
-## Addons and secrets
-- Addons are per-env; edit values/versions to match your standards.
-- Populate `gitops-environment/addons/external-secrets-stores/{dev,prd}/` with your SecretStore/ExternalSecret manifests; they sync via the `external-secret-stores` app in each env.
-
-## Validation
-- Install `kustomize` and render: `kustomize build gitops-environment/bootstrap/dev` (and `.../prd`) after updating repo URLs.
-- Check Argo CD UI/CLI to confirm sync once applied.
+## Why this matters
+- Shows how I structure GitOps for multiple clusters/environments with clear separation of concerns.
+- Demonstrates security-first defaults (non-root, seccomp, secrets out of Git) and observability baked in.
+- Reflects cost and reliability awareness (resource requests/limits, retention settings, autoscaling).
+- Provides a repeatable bootstrap story for interviews, POCs, or client-facing demos.
