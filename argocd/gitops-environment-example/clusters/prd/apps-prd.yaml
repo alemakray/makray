@@ -9,7 +9,7 @@ spec:
         repoURL: https://example.com/your/repo.git
         revision: HEAD
         directories:
-          - path: argocd/gitops-environment-example/apps/*/overlays/prod
+          - path: gitops-environment/apps/*/overlays/prod
   template:
     metadata:
       name: '{{ index (splitList "/" path) 2 }}-prod'
