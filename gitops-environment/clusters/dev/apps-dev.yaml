@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: apps-dev
+  namespace: argocd
+spec:
+  generators:
+    - git:
+        repoURL: https://example.com/your/repo.git
+        revision: HEAD
+        directories:
+          - path: gitops-environment/apps/*/overlays/dev
+  template:
+    metadata:
+      name: '{{ index (splitList "/" path) 2 }}-dev'
+    spec:
+      project: default
+      source:
+        repoURL: https://example.com/your/repo.git
+        targetRevision: HEAD
+        path: '{{path}}'
+      destination:
+        name: cluster-dev
+        namespace: '{{ index (splitList "/" path) 2 }}-dev'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

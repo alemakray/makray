@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gitops-prod-bootstrap
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://example.com/your/repo.git
+    targetRevision: HEAD
+    path: gitops-environment/clusters/prd
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

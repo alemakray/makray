@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: monitoring-stack
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://prometheus-community.github.io/helm-charts
+    chart: kube-prometheus-stack
+    targetRevision: 65.4.1
+    helm:
+      releaseName: monitoring
+      values: |
+        fullnameOverride: monitoring
+        grafana:
+          enabled: true
+          adminPassword: ""
+          service:
+            type: ClusterIP
+        prometheus:
+          prometheusSpec:
+            retention: 15d
+            securityContext:
+              runAsNonRoot: true
+              runAsUser: 65534
+        alertmanager:
+          alertmanagerSpec:
+            securityContext:
+              runAsNonRoot: true
+              runAsUser: 65534
+  destination:
+    name: cluster-dev
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
