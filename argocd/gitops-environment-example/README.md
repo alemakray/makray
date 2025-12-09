@@ -23,8 +23,8 @@ Kustomize-first GitOps skeleton that assumes:
 2) In Argo CD, ensure cluster aliases exist: `cluster-dev`, `cluster-prd`.
 
 ## Bootstrap flows (run from tools-cluster context)
-- Dev cluster: `kubectl apply -k gitops-environment/bootstrap/dev`
-- Prod cluster: `kubectl apply -k gitops-environment/bootstrap/prd`
+- Dev cluster: `kubectl apply -k argocd/gitops-environment-example/bootstrap/dev`
+- Prod cluster: `kubectl apply -k argocd/gitops-environment-example/bootstrap/prd`
 The app-of-apps will register the cluster kustomization, which includes the env appset and env addons.
 
 ## Adding an application
@@ -45,7 +45,7 @@ The app-of-apps will register the cluster kustomization, which includes the env 
 
 ## Validation
 - Install `kustomize` locally and render to verify:  
-  `kustomize build gitops-environment/bootstrap/dev` and `.../bootstrap/prd`  
+  `kustomize build argocd/gitops-environment-example/bootstrap/dev` and `.../bootstrap/prd`  
 - After repo URLs are set and aliases exist, Argo CD should sync automatically; check Argo CD UI/CLI for status.
 
 ## Notes

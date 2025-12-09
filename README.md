@@ -10,9 +10,7 @@ DevOps/GitOps portfolio: Azure-first, Kubernetes-native, with Terraform, Argo CD
 - **Observability & Cost**: Prometheus/Grafana stack, service monitors, retention tuning; cost-aware sizing and right-sizing signals.
 - **Reliability**: Health probes, autoscaling patterns, multi-env parity, automated self-heal/prune via Argo CD.
 
-## Repo highlights (quick map)
-- `gitops-environment/` – Full GitOps scaffold (apps, appsets, addons, bootstrap); see its README for specifics.
-- Other files/scripts – used for experiments and demos; will grow as I add more IaC/CI/CD examples.
+See `argocd/README.md` for the Argo CD/GitOps scaffold; other files/scripts are for experiments and future IaC/CI/CD examples.
 
 ## Why this matters
 - Shows how I structure GitOps for multiple clusters/environments with clear separation of concerns.

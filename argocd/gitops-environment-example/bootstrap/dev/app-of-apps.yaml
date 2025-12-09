@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://example.com/your/repo.git
     targetRevision: HEAD
-    path: gitops-environment/clusters/dev
+    path: argocd/gitops-environment-example/clusters/dev
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd

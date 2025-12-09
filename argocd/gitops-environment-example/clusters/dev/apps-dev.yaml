@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: apps-prd
+  name: apps-dev
   namespace: argocd
 spec:
   generators:
@@ -9,10 +9,10 @@ spec:
         repoURL: https://example.com/your/repo.git
         revision: HEAD
         directories:
-          - path: gitops-environment/apps/*/overlays/prod
+          - path: argocd/gitops-environment-example/apps/*/overlays/dev
   template:
     metadata:
-      name: '{{ index (splitList "/" path) 2 }}-prod'
+      name: '{{ index (splitList "/" path) 2 }}-dev'
     spec:
       project: default
       source:
@@ -20,8 +20,8 @@ spec:
         targetRevision: HEAD
         path: '{{path}}'
       destination:
-        name: cluster-prd
-        namespace: '{{ index (splitList "/" path) 2 }}-prod'
+        name: cluster-dev
+        namespace: '{{ index (splitList "/" path) 2 }}-dev'
       syncPolicy:
         automated:
           prune: true
